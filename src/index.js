@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import firebase, { initializeApp } from "firebase/app";
-import 'firebase/firestore'
-import 'firebase/auth'
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
-const app = initializeApp({
+const app = firebase.initializeApp({
   apiKey: "AIzaSyDlvklXFeTrDkv7sBYZrYFA5gLvPbPBCh4",
   authDomain: "real-time-chat-e066a.firebaseapp.com",
   projectId: "real-time-chat-e066a",
@@ -15,7 +15,15 @@ const app = initializeApp({
   measurementId: "G-C77XE7BSN4"
 })
 
-// const auth = firebase.auth()
+export const Context = createContext(null)
+
+const auth = firebase.auth()
+const firestore = firebase.firestore()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+
+root.render(
+  <Context.Provider value={{ firebase, auth, firestore }}>
+    <App />
+  </Context.Provider>
+);

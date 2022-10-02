@@ -1,9 +1,17 @@
 import { AppBar, Button, Grid, Toolbar } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import {Link} from 'react-router-dom'
+import { Context } from '../index'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const Navbar = () => {
-  const isAuth = false
+  const {auth} = useContext(Context)
+  const [user, loading, error] = useAuthState(auth)
+  console.log(user)
+
+  if (loading) {
+    return <div>лоадинг...</div>
+  }
   return (
     <div>
       <Link to='/login'>login</Link>
@@ -12,8 +20,8 @@ const Navbar = () => {
         <Toolbar>
           <Grid container justify={"flex-end"}>
             {
-              isAuth
-                ? <Button variant={"outlined"}>Выйти</Button>
+              user
+                ? <Button onClick={() => auth.signOut()} variant={"outlined"}>Выйти</Button>
                 : <Link to='/login'>
                   <Button variant={"outlined"}>логин</Button>
                 </Link>
