@@ -1,4 +1,3 @@
-import { Button, Grid, TextField } from '@mui/material'
 import { Container } from '@mui/system'
 import React, { useContext, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -32,23 +31,22 @@ const Chat = () => {
   return (
     <div>
       <Container>
-        <div style={{width: '80%', height: '70vh', border: '1px solid #000'}}>
+        <div>
           {messages.map(item => (
-            <div key={item.createdAt}>
-              <div><img alt='' src={item.photoURL} /></div>
-              <div>{item.displayName}</div>
-              <div style={{ border: item.uid === user.uid ? '1px solid #000' : '1px solid red'}}>{item.text}</div>
-
+            <div  key={item.createdAt} style={{position: 'relative', border: item.uid === user.uid ? '1px solid #000' : '1px solid red'}}>
+              {
+                item.uid === user.uid ? <></>
+                  : <div> <span style={{ width: '40px', height: '40px' }} ><img alt='' src={item.photoURL} style={{ width: '40px', height: '40px', borderRadius: '50%' }} /></span>
+                    <span style={{ position: 'absolute', top: '12px' }}>{item.displayName}</span></div>
+              }
+              <div style={{ textAlign: item.uid === user.uid ? 'right' : 'left'}}>{item.text}</div>
             </div>
           ))}
         </div>
-        <Grid
-          container direction={'column'} alignItems={'flex-end'}
-          style={{ width: '80px' }}
-        >
-          <TextField onChange={(e) => setValue(e.target.value)} variant='outlined' fullWidth value={value} />
-          <Button onClick={sendMessage}>отправить</Button>
-        </Grid>
+          <div style={{position: 'fixed', bottom: 0, backgroundColor: '#fff', height: '40px', width: '400px'}} >
+              <input style={{padding: '5px', outline: 'none', border: '1px solid #3577EF', borderRadius: '10px'}} onChange={(e) => setValue(e.target.value)} variant='outlined' value={value} />
+              <button onClick={sendMessage}>Отправить</button>
+          </div>
       </Container>
     </div>
   )

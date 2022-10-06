@@ -18,6 +18,7 @@ const app = firebase.initializeApp({
 export const Context = createContext(null)
 
 const auth = firebase.auth()
+
 const firestore = firebase.firestore()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
